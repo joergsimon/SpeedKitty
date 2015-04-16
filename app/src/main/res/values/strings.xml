@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="speed_cnt">Speed:</string>
+    <string name="kitty_speak_scared">I am scared, he could be here any moment!</string>
 </resources>
