@@ -67,8 +67,14 @@ public class RunningDetector implements LinearAccelerationHandler {
         }
     }
 
+    int counter = 0;
+    boolean running =false;
     private boolean detectRunning() {
-        return false;
+        counter++;
+        if (counter % 3000 == 0) {
+            running = !running;
+        }
+        return running;
     }
 
     private long getLastTimestamp() {

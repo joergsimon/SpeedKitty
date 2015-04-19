@@ -7,11 +7,20 @@ package android.upipc.knowcenter.at.speedkitty;
  * If you did cast it to an int, use fromOrdinal to transfer it back
  */
 public enum KittyMood {
-    RUNNING,
-    SCARED,
-    NEUTRAL,
-    MOTIVATED;
+    RUNNING(0),
+    SCARED(1),
+    NEUTRAL(2),
+    MOTIVATED(3);
 
     private static KittyMood[] allValues = values();
     public static KittyMood fromOrdinal(int n) {return allValues[n];}
+
+    private final int value;
+    private KittyMood(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

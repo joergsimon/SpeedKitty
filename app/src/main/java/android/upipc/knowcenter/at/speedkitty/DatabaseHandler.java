@@ -39,8 +39,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_DIDRUN + " BOOLEAN)";
         db.execSQL(CREATE_WEEK_TABLE);
 
-        insertSpeed(1);
-        insertDidRunThisWeek(false);
+        //insertSpeed(1);
+        //insertDidRunThisWeek(false);
     }
 
     @Override
@@ -75,14 +75,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_SPEED, new String[] { KEY_COUNT }, KEY_ID + "=?",
                 new String[] { "1" }, null, null, null, null);
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
         } else {
             insertSpeed(1);
             return 1;
         }
         // return contact
-        return Integer.parseInt(cursor.getString(0));
+        int results = cursor.getCount();
+        int position = cursor.getPosition();
+        String speedStr = cursor.getString(0);
+        return Integer.parseInt(speedStr);
     }
 
     private void insertDidRunThisWeek(boolean didRun) {

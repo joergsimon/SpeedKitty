@@ -39,8 +39,8 @@ public class MotivationLogic implements RunningNotifier {
     @Override
     public void notifyChange(boolean isRunning, long timestamp) {
         this.isRunning = isRunning;
-        broadcastKittiesMood();
         incrementSpeedInDB();
+        broadcastKittiesMood();
     }
 
     private void broadcastKittiesMood() {
@@ -59,12 +59,15 @@ public class MotivationLogic implements RunningNotifier {
 
     private void sendIntent(KittyMood mood) {
         Intent intent = new Intent(BROADCAST_ACTION);
-        intent.putExtra(MOOD_FIELD, mood);
+        intent.putExtra(MOOD_FIELD, mood.getValue());
         ctx.sendBroadcast(intent);
     }
 
     private void incrementSpeedInDB() {
         int currentSpeed = databaseHandler.getSpeed();
+        if (currentSpeed > 20) {
+            currentSpeed = 0;
+        }
         databaseHandler.updateSpeed(currentSpeed + 1);
     }
 

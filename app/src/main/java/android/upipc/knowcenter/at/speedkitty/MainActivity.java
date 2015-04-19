@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity implements KittyMoodUpdater 
     }
 
     private void updateSpeedCounter() {
-        speedCounterNumber.setText(logic.getSpeed());
+        speedCounterNumber.setText(""+logic.getSpeed());
     }
 
     private void displayRunning() {

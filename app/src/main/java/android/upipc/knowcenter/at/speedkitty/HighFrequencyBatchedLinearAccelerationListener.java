@@ -12,6 +12,6 @@ import android.hardware.SensorManager;
  */
 public class HighFrequencyBatchedLinearAccelerationListener extends LinearAccelerationListener {
     public HighFrequencyBatchedLinearAccelerationListener(Context ctx) {
-        super(ctx, SensorManager.SENSOR_DELAY_FASTEST, 50000000);
+        super(ctx, SensorManager.SENSOR_DELAY_FASTEST, 2000000);
     }
 }
