@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -15,6 +16,7 @@ public class MainActivity extends ActionBarActivity implements KittyMoodUpdater 
 
     TextView kittySpeak;
     TextView speedCounterNumber;
+    ImageView kittyImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,7 @@ public class MainActivity extends ActionBarActivity implements KittyMoodUpdater 
         setContentView(R.layout.activity_main);
         kittySpeak = (TextView)findViewById(R.id.kittySpeak);
         speedCounterNumber = (TextView)findViewById(R.id.speedCounterNumber);
+        kittyImage = (ImageView)findViewById(R.id.kittyImage);
     }
 
     @Override
@@ -95,18 +98,22 @@ public class MainActivity extends ActionBarActivity implements KittyMoodUpdater 
     }
 
     private void displayRunning() {
-        kittySpeak.setText("running");
+        kittySpeak.setText(R.string.kitty_speak_running);
+        kittyImage.setImageResource(R.drawable.running);
     }
 
     private void displayScared() {
-        kittySpeak.setText("scared");
+        kittySpeak.setText(R.string.kitty_speak_scared);
+        kittyImage.setImageResource(R.drawable.scared);
     }
 
     private void displayNeutral() {
-        kittySpeak.setText("neutral");
+        kittySpeak.setText(R.string.kitty_speak_neutral);
+        kittyImage.setImageResource(R.drawable.neutral);
     }
 
     private void displayMotivated() {
-        kittySpeak.setText("motivated");
+        kittySpeak.setText(R.string.kitty_speak_motivated);
+        kittyImage.setImageResource(R.drawable.motivated);
     }
 }
