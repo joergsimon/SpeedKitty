@@ -6,7 +6,7 @@
 
     <string name="speed_cnt">Speed:</string>
     <string name="kitty_speak_scared">I am scared, he could be here any moment!</string>
-    <string name="kitty_speak_neutral">Ok, we can handle that. He could be here any moment but ok.</string>
-    <string name="kitty_speak_motivated">Let this stupid dog try. He will not catch me for weeks!</string>
+    <string name="kitty_speak_neutral">Ok, we can handle that.</string>
+    <string name="kitty_speak_motivated">Let this stupid dog try. He will not catch me!</string>
     <string name="kitty_speak_running">Yipee! Running!</string>
 </resources>
