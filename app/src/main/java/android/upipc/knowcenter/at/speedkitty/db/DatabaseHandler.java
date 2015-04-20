@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.db;
 
 import android.content.ContentValues;
 import android.content.Context;

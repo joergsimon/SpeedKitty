@@ -1,7 +1,8 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.logic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.upipc.knowcenter.at.speedkitty.db.DatabaseHandler;
 
 /**
  * Created by j_simon on 17/04/15.
@@ -83,6 +84,10 @@ public class MotivationLogic implements RunningNotifier {
             return KittyMood.NEUTRAL;
         }
         return KittyMood.MOTIVATED;
+    }
+
+    public int adoptSpeedForWeek() {
+        return 0;
     }
 
     public int getSpeed() {

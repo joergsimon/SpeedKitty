@@ -1,6 +1,9 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.logic;
 
 import android.content.Context;
+import android.upipc.knowcenter.at.speedkitty.sensing.HighFrequencyBatchedLinearAccelerationListener;
+import android.upipc.knowcenter.at.speedkitty.sensing.LinearAccelerationHandler;
+import android.upipc.knowcenter.at.speedkitty.sensing.LinearAccelerationListener;
 
 import java.util.ArrayList;
 import java.util.List;

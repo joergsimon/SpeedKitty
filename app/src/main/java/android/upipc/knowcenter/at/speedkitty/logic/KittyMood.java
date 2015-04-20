@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.logic;
 
 /**
  * Created by j_simon on 17/04/15.
@@ -10,7 +10,8 @@ public enum KittyMood {
     RUNNING(0),
     SCARED(1),
     NEUTRAL(2),
-    MOTIVATED(3);
+    MOTIVATED(3),
+    DEAD(4);
 
     private static KittyMood[] allValues = values();
     public static KittyMood fromOrdinal(int n) {return allValues[n];}

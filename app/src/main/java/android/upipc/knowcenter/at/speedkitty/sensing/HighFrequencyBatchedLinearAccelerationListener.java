@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.sensing;
 
 import android.content.Context;
 import android.hardware.SensorManager;

@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty;
+package android.upipc.knowcenter.at.speedkitty.logic;
 
 /**
  * Created by j_simon on 17/04/15.

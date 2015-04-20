@@ -3,6 +3,9 @@ package android.upipc.knowcenter.at.speedkitty;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.upipc.knowcenter.at.speedkitty.logic.KittyMood;
+import android.upipc.knowcenter.at.speedkitty.logic.KittyMoodUpdater;
+import android.upipc.knowcenter.at.speedkitty.logic.MotivationLogic;
 
 /**
  * Created by j_simon on 17/04/15.
