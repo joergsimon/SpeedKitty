@@ -65,7 +65,12 @@ public class RunningDetector implements LinearAccelerationHandler {
     private void detectModeChange() {
         boolean isRunning = detectRunning();
         if (currentMode != isRunning) {
-            notifier.notifyChange(currentMode, getLastTimestamp());
+            if (!currentMode) {
+                notifier.runDidStart(getLastTimestamp());
+            }
+            else {
+                notifier.runDidEnd(getLastTimestamp(), 0);
+            }
             currentMode = isRunning;
         }
     }

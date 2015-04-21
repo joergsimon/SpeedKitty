@@ -8,5 +8,6 @@ package android.upipc.knowcenter.at.speedkitty.logic;
  *
  */
 public interface RunningNotifier {
-    void notifyChange(boolean isRunning, long timestamp);
+    void runDidStart(long timestamp);
+    void runDidEnd(long timestamp, float avarageSpeed);
 }
