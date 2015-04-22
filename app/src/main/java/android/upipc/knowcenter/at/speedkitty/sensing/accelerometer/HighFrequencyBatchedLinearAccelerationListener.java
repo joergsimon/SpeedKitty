@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty.sensing;
+package android.upipc.knowcenter.at.speedkitty.sensing.accelerometer;
 
 import android.content.Context;
 import android.hardware.SensorManager;

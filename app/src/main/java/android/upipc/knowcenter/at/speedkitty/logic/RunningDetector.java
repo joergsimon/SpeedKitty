@@ -1,9 +1,13 @@
 package android.upipc.knowcenter.at.speedkitty.logic;
 
 import android.content.Context;
-import android.upipc.knowcenter.at.speedkitty.sensing.HighFrequencyBatchedLinearAccelerationListener;
-import android.upipc.knowcenter.at.speedkitty.sensing.LinearAccelerationHandler;
-import android.upipc.knowcenter.at.speedkitty.sensing.LinearAccelerationListener;
+import android.upipc.knowcenter.at.speedkitty.sensing.accelerometer.HighFrequencyBatchedLinearAccelerationListener;
+import android.upipc.knowcenter.at.speedkitty.sensing.accelerometer.LinearAccelerationHandler;
+import android.upipc.knowcenter.at.speedkitty.sensing.accelerometer.LinearAccelerationListener;
+import android.upipc.knowcenter.at.speedkitty.sensing.accelerometer.speed.AvarageSpeedDetector;
+import android.upipc.knowcenter.at.speedkitty.sensing.googleplay.ActivityRecognitionConstants;
+import android.upipc.knowcenter.at.speedkitty.sensing.googleplay.ActivityRecognitionFacade;
+import android.upipc.knowcenter.at.speedkitty.sensing.googleplay.ActivityUpdater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,93 +19,47 @@ import java.util.List;
  * and call startDetectingChanges. The RunningNotifier will then detect if the running mode changed
  *
  */
-public class RunningDetector implements LinearAccelerationHandler {
+public class RunningDetector implements ActivityUpdater {
 
-    public final float THRESHOLD = 9;
-
-    List<HistoryRecord> localHistory;
-    boolean currentMode;
-    LinearAccelerationListener listener;
+    AvarageSpeedDetector speedDetector;
+    ActivityRecognitionFacade activityRecognition;
     RunningNotifier notifier;
+    boolean currentMode;
+    long startTime;
 
     public RunningDetector(Context ctx, RunningNotifier notifier) {
-        HighFrequencyBatchedLinearAccelerationListener listener = new HighFrequencyBatchedLinearAccelerationListener(ctx);
-        init(listener, notifier);
-    }
-
-    public RunningDetector(LinearAccelerationListener listener, RunningNotifier notifier) {
-        init(listener, notifier);
-    }
-
-    private void init(LinearAccelerationListener listener, RunningNotifier notifier) {
-        this.listener = listener;
+        speedDetector = new AvarageSpeedDetector(ctx);
+        activityRecognition = new ActivityRecognitionFacade(ctx, this);
         this.notifier = notifier;
-        listener.setHandler(this);
         currentMode = false;
-        localHistory = new ArrayList<>();
+    }
+
+
+    public void startDetectingChanges() {
+        speedDetector.startComputingSpeed();
+        activityRecognition.startDetectingActivities();
+    }
+
+    public void stopDetectingChanges() {
+        speedDetector.stopComputingSpeed();
+        activityRecognition.stopDetectingActivities();
     }
 
 
     @Override
-    public void accelerationChanged(long timestampInMicrosecend, float x, float y, float z) {
-        HistoryRecord record = new HistoryRecord(timestampInMicrosecend,computeAcceleration(x,y,z));
-        localHistory.add(record);
-        detectModeChange();
-        purgeHistory();
-    }
-
-    private float computeAcceleration(float x, float y, float z) {
-        return (float)Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
-    }
-
-    public void startDetectingChanges() {
-        listener.startSensing();
-    }
-
-    public void stopDetectingChanges() {
-        listener.stopSensing();
-    }
-
-    private void detectModeChange() {
-        boolean isRunning = detectRunning();
+    public void activityUpdates(int running, int confidence, long time) {
+        boolean isRunning = (running == ActivityRecognitionConstants.RUNNING);
         if (currentMode != isRunning) {
             if (!currentMode) {
-                notifier.runDidStart(getLastTimestamp());
+                speedDetector.purgeHistory(); // we loose some accuracy here, but ok...
+                notifier.runDidStart(time);
             }
             else {
-                notifier.runDidEnd(getLastTimestamp(), 0);
+                notifier.runDidEnd(time, speedDetector.getAvarageSpeed(startTime, time));
+                speedDetector.purgeHistory();
             }
+            startTime = time;
             currentMode = isRunning;
         }
-    }
-
-    int counter = 0;
-    boolean running =false;
-    private boolean detectRunning() {
-        counter++;
-        if (counter % 3000 == 0) {
-            running = !running;
-        }
-        return running;
-    }
-
-    private long getLastTimestamp() {
-        if (localHistory.size() == 0) {
-            return 0;
-        }
-        return localHistory.get(localHistory.size()-1).timestampInMicrosecend;
-    }
-
-    private void purgeHistory() {
-        // take joda time?
-    }
-
-    private class HistoryRecord {
-        public HistoryRecord(long timestampInMicrosecend, float acceleration) {
-            this.timestampInMicrosecend = timestampInMicrosecend;
-            this.acceleration = acceleration;
-        }
-        long timestampInMicrosecend;
-        float acceleration;
     }
 }

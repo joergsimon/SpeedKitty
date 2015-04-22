@@ -1,4 +1,4 @@
-package android.upipc.knowcenter.at.speedkitty.sensing;
+package android.upipc.knowcenter.at.speedkitty.sensing.accelerometer;
 
 /**
  * Created by j_simon on 16/04/15.
