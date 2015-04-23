@@ -16,21 +16,50 @@ import com.google.android.gms.location.ActivityRecognition;
 /**
  * Created by j_simon on 22/04/15.
  */
-public class ActivityRecognitionStarter  {
+public class ActivityRecognitionStarter implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private GoogleApiClient client;
+    private PendingIntent intent;
 
     public ActivityRecognitionStarter(Context ctx) {
-
+        client = new GoogleApiClient.Builder(ctx)
+                .addApi(ActivityRecognition.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        Intent i = new Intent(ctx, ActivityRecognitionIntentService.class);
+        intent = PendingIntent.getService(ctx, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void startDetectingActivities() {
         Log.d("SENSING", "attempt to connect to activity recognition");
-
+        client.connect();
     }
 
     public void stopDetectingActivities() {
         Log.d("SENSING", "attempt to DISCONNECT activity recognition");
-
+        client.disconnect();
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d("SENSING", "attempt to request activity updates");
+        PendingResult<Status> result = ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(client, 0, intent);
+        result.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                Log.d("SENSING", "status: " + status);
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(client, intent);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }
